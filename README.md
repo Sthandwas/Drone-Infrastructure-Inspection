@@ -42,7 +42,7 @@ Final model (Model C) evaluated on four recordings not used for training:
 - The weakest class was working streetlights, which were sometimes missed or
   classified as faulty, mainly in low-light footage.
 - Model inference took 11.8 ms on a Tesla T4 GPU at 640 px. On the laptop CPU
-  it took about 145–185 ms per image at 960 px. The live system figure above
+  it took about 145-185 ms per image at 960 px. The live system figure above
   is the one that applies in practice.
 - Results come from one miniature-city test environment. See the final report
   for full methodology and limitations.
