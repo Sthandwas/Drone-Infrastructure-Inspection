@@ -13,26 +13,39 @@ Final-year engineering project, BEngTech Electronic and Computer Engineering, Du
 3. **Detection:** YOLOv8n classifies four classes: `traffic_light-working`, `traffic_light-faulty`, `streetlight-working`, `streetlight-faulty`.
 4. **Dashboard:** a Streamlit app displays detections and compares them with the Arduino log.
 
-## Results (held-out test set)
+## Results
 
-Evaluated on 431 images (1,724 labelled objects) from recordings kept separate from training. The data was split by video to avoid leakage.
+Final model (Model C) evaluated on four recordings not used for training:
+431 images containing 1,724 labelled objects, at a confidence threshold of 0.7.
 
-| Metric | Value |
-|---|---|
-| mAP@0.5 | 0.881 |
-| mAP@0.5:0.95 | 0.411 |
-| Precision | 0.897 |
-| Recall | 0.876 |
-| Mean F1 | 0.886 |
+| Metric | Result | Target |
+|---|---|---|
+| mAP@0.5 | 0.876 | ≥ 0.85 |
+| Mean F1-score (4 classes) | 0.86 | ≥ 0.80 |
+| Mean precision / mean recall | 0.91 / 0.83 | n/a |
+| Objects correctly classified | 1,425 of 1,724 (82.7%) | n/a |
+| Live latency, frame received to result saved | 255 ms mean, 428 ms max | ≤ 500 ms |
 
-| Class | AP@0.5 |
-|---|---|
-| traffic_light-working | 0.783 |
-| traffic_light-faulty | 0.821 |
-| streetlight-working | 0.956 |
-| streetlight-faulty | 0.966 |
+### Per-class results (confidence 0.7)
 
-Speed on a Tesla T4 GPU (Google Colab): 2.8 ms preprocessing, 6.3 ms inference, 2.5 ms postprocessing per image.
+| Class | Precision | Recall | F1 |
+|---|---|---|---|
+| Traffic light, working | 0.85 | 0.79 | 0.82 |
+| Traffic light, faulty | 0.94 | 0.83 | 0.88 |
+| Streetlight, working | 0.94 | 0.72 | 0.82 |
+| Streetlight, faulty | 0.90 | 0.96 | 0.93 |
+
+### Notes
+
+- No faulty light was classified as working. Errors were missed objects or
+  false fault reports.
+- The weakest class was working streetlights, which were sometimes missed or
+  classified as faulty, mainly in low-light footage.
+- Model inference took 11.8 ms on a Tesla T4 GPU at 640 px. On the laptop CPU
+  it took about 145–185 ms per image at 960 px. The live system figure above
+  is the one that applies in practice.
+- Results come from one miniature-city test environment. See the final report
+  for full methodology and limitations.
 
 ## Limitations
 
